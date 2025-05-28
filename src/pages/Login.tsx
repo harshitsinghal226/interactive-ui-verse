@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Leaf, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,40 +7,41 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
-const FarmerRegistration = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    name: '',
     username: '',
-    phone: '',
     password: '',
-    confirmPassword: '',
-    address: ''
+    userType: 'farmer'
   });
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    
+    // Simple authentication simulation
+    if (formData.username && formData.password) {
+      toast({
+        title: "Login Successful!",
+        description: `Welcome back, ${formData.userType}!`,
+      });
+      
+      // Navigate based on user type
+      if (formData.userType === 'farmer') {
+        navigate('/farmer-stock-management');
+      } else {
+        navigate('/company-buy-product');
+      }
+    } else {
       toast({
         title: "Error",
-        description: "Passwords do not match",
+        description: "Please fill in all fields",
         variant: "destructive"
       });
-      return;
     }
-    toast({
-      title: "Registration Successful!",
-      description: "Welcome to AgriLoop! Redirecting to your stock management page.",
-    });
-    
-    // Redirect to farmer stock management page
-    setTimeout(() => {
-      navigate('/farmer-stock-management');
-    }, 2000);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -58,19 +60,15 @@ const FarmerRegistration = () => {
             </Link>
             <div className="hidden md:flex items-center space-x-6">
               <Link to="/" className="text-gray-700 hover:text-green-600">Home</Link>
-              <Link to="#" className="text-gray-700 hover:text-green-600">Solutions</Link>
-              <Link to="#" className="text-gray-700 hover:text-green-600">About Us</Link>
+              <Link to="#" className="text-gray-700 hover:text-green-600">About</Link>
               <Link to="#" className="text-gray-700 hover:text-green-600">Contact</Link>
-              <Button className="bg-green-500 hover:bg-green-600" asChild>
-                <Link to="/login">Login</Link>
-              </Button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Registration Form */}
-      <div className="max-w-2xl mx-auto px-4 py-12">
+      {/* Login Form */}
+      <div className="max-w-md mx-auto px-4 py-12">
         <div className="mb-6">
           <Link to="/" className="inline-flex items-center text-green-600 hover:text-green-700">
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -80,27 +78,27 @@ const FarmerRegistration = () => {
 
         <Card className="shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-gray-900">Register as a Farmer</CardTitle>
+            <CardTitle className="text-3xl font-bold text-gray-900">Login</CardTitle>
             <CardDescription className="text-lg text-gray-600">
-              Join our network and start monetizing your agricultural waste
+              Access your account
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Name
+                <label htmlFor="userType" className="block text-sm font-medium text-gray-700 mb-2">
+                  I am a
                 </label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={formData.name}
+                <select
+                  id="userType"
+                  name="userType"
+                  value={formData.userType}
                   onChange={handleChange}
-                  required
-                  className="w-full"
-                />
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="farmer">Farmer</option>
+                  <option value="company">Company</option>
+                </select>
               </div>
 
               <div>
@@ -111,24 +109,8 @@ const FarmerRegistration = () => {
                   id="username"
                   name="username"
                   type="text"
-                  placeholder="Choose a unique username"
+                  placeholder="Enter your username"
                   value={formData.username}
-                  onChange={handleChange}
-                  required
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number
-                </label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  value={formData.phone}
                   onChange={handleChange}
                   required
                   className="w-full"
@@ -143,40 +125,8 @@ const FarmerRegistration = () => {
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Create a strong password"
+                  placeholder="Enter your password"
                   value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm Password
-                </label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Re-enter your password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                  Address
-                </label>
-                <Input
-                  id="address"
-                  name="address"
-                  type="text"
-                  placeholder="Enter your farm address"
-                  value={formData.address}
                   onChange={handleChange}
                   required
                   className="w-full"
@@ -187,15 +137,19 @@ const FarmerRegistration = () => {
                 type="submit" 
                 className="w-full bg-green-500 hover:bg-green-600 text-white py-3 text-lg"
               >
-                Register
+                Login
               </Button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
-                Already have an account?{' '}
-                <Link to="/login" className="text-green-600 hover:text-green-700 font-medium">
-                  Sign In
+                Don't have an account?{' '}
+                <Link to="/farmer-registration" className="text-green-600 hover:text-green-700 font-medium">
+                  Register as Farmer
+                </Link>
+                {' or '}
+                <Link to="/company-registration" className="text-green-600 hover:text-green-700 font-medium">
+                  Register as Company
                 </Link>
               </p>
             </div>
@@ -206,4 +160,4 @@ const FarmerRegistration = () => {
   );
 };
 
-export default FarmerRegistration;
+export default Login;

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CompanyRegistration = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +18,7 @@ const CompanyRegistration = () => {
     address: ''
   });
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,8 +32,13 @@ const CompanyRegistration = () => {
     }
     toast({
       title: "Registration Successful!",
-      description: "Welcome to Bio Harvest! You can now access sustainable agricultural materials.",
+      description: "Welcome to AgriLoop! Redirecting to product marketplace.",
     });
+    
+    // Redirect to company buy product page
+    setTimeout(() => {
+      navigate('/company-buy-product');
+    }, 2000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,7 +56,7 @@ const CompanyRegistration = () => {
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2">
               <Leaf className="h-8 w-8 text-green-600" />
-              <span className="text-2xl font-bold text-gray-900">AgriCarbon</span>
+              <span className="text-2xl font-bold text-gray-900">AgriLoop</span>
             </Link>
             <div className="hidden md:flex items-center space-x-6">
               <Link to="/" className="text-gray-700 hover:text-green-600">Home</Link>
@@ -58,7 +64,9 @@ const CompanyRegistration = () => {
               <Link to="#" className="text-gray-700 hover:text-green-600">Industries</Link>
               <Link to="#" className="text-gray-700 hover:text-green-600">Resources</Link>
               <Link to="#" className="text-gray-700 hover:text-green-600">About Us</Link>
-              <Button className="bg-green-500 hover:bg-green-600">Get Started</Button>
+              <Button className="bg-green-500 hover:bg-green-600" asChild>
+                <Link to="/login">Login</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -204,7 +212,7 @@ const CompanyRegistration = () => {
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
-                Already a customer?{' '}
+                Already have an account?{' '}
                 <Link to="/login" className="text-green-600 hover:text-green-700 font-medium">
                   Sign In
                 </Link>
