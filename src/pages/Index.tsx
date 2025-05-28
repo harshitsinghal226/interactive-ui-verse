@@ -1,22 +1,16 @@
 
 import { useState, useEffect } from 'react';
-import { ArrowRight, Menu, X, Github, Linkedin, Mail, Phone, MapPin, Code, Palette, Zap, Users, ChevronDown } from 'lucide-react';
+import { ArrowRight, Menu, X, Leaf, Users, Recycle, TrendingUp, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,91 +20,101 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your message. We'll get back to you soon!",
-    });
-    setFormData({ name: '', email: '', message: '' });
-  };
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
   };
 
-  const services = [
-    {
-      icon: <Code className="w-8 h-8" />,
-      title: "Web Development",
-      description: "Custom web applications built with modern technologies and best practices."
-    },
-    {
-      icon: <Palette className="w-8 h-8" />,
-      title: "UI/UX Design",
-      description: "Beautiful, intuitive designs that provide exceptional user experiences."
-    },
-    {
-      icon: <Zap className="w-8 h-8" />,
-      title: "Performance Optimization",
-      description: "Lightning-fast websites optimized for speed and search engines."
-    },
+  const handleFarmerClick = () => {
+    navigate('/farmer-registration');
+  };
+
+  const handleCompanyClick = () => {
+    navigate('/company-registration');
+  };
+
+  const howItWorksSteps = [
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Consulting",
-      description: "Strategic guidance to help your business succeed in the digital world."
+      title: "Connect with Farmers",
+      description: "Sign up as a farmer and list your agricultural waste, specifying type, quantity, and location."
+    },
+    {
+      icon: <Recycle className="w-8 h-8" />,
+      title: "Find Sustainable Materials",
+      description: "Businesses can search for the type of agricultural waste based on their needs and sustainability goals."
+    },
+    {
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: "Track Carbon Reduction",
+      description: "Our AI-powered platform calculates the carbon footprint reduction achieved through waste optimization."
     }
   ];
 
-  const projects = [
+  const benefits = [
     {
-      title: "E-Commerce Platform",
-      description: "A modern e-commerce solution with advanced features",
-      tech: ["React", "Node.js", "PostgreSQL"],
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop"
+      title: "Increased Income for Farmers",
+      description: "Farmers can generate additional income by selling their agricultural waste, turning a potential liability into an asset.",
+      image: "https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=400&h=300&fit=crop"
     },
     {
-      title: "Portfolio Website",
-      description: "Creative portfolio showcasing artistic work",
-      tech: ["Vue.js", "Tailwind", "Firebase"],
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop"
+      title: "Access to Sustainable Materials",
+      description: "Businesses can source high-quality, sustainable raw materials meeting consumer demand for eco-friendly products.",
+      image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop"
     },
     {
-      title: "Mobile App",
-      description: "Cross-platform mobile application",
-      tech: ["React Native", "Express", "MongoDB"],
-      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=300&fit=crop"
+      title: "Reduced Environmental Impact",
+      description: "By utilizing agricultural waste, Bio Harvest helps reduce greenhouse gas emissions and promotes a circular economy.",
+      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                WebCraft
-              </h1>
+            <div className="flex items-center space-x-2">
+              <Leaf className="h-8 w-8 text-green-600" />
+              <h1 className="text-2xl font-bold text-gray-900">Bio Harvest</h1>
             </div>
             
             {/* Desktop Navigation */}
             <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                {['home', 'about', 'services', 'portfolio', 'contact'].map((item) => (
+              <div className="ml-10 flex items-baseline space-x-6">
+                {['home', 'about', 'services', 'contact'].map((item) => (
                   <button
                     key={item}
                     onClick={() => scrollToSection(item)}
-                    className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 capitalize"
+                    className="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 capitalize"
                   >
                     {item}
                   </button>
                 ))}
+                <Button 
+                  onClick={() => navigate('/waste-products')}
+                  variant="outline"
+                  className="mr-2"
+                >
+                  Products
+                </Button>
+                <Button 
+                  onClick={() => navigate('/farmer-listings')}
+                  variant="outline"
+                  className="mr-2"
+                >
+                  Listings
+                </Button>
+                <Button 
+                  onClick={handleFarmerClick}
+                  className="bg-green-500 hover:bg-green-600 text-white"
+                >
+                  Get Started
+                </Button>
               </div>
             </div>
 
@@ -118,7 +122,7 @@ const Index = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 hover:text-blue-600 p-2"
+                className="text-gray-700 hover:text-green-600 p-2"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -130,15 +134,27 @@ const Index = () => {
         {isMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-md border-t">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {['home', 'about', 'services', 'portfolio', 'contact'].map((item) => (
+              {['home', 'about', 'services', 'contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollToSection(item)}
-                  className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left capitalize"
+                  className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left capitalize"
                 >
                   {item}
                 </button>
               ))}
+              <button
+                onClick={() => navigate('/waste-products')}
+                className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
+              >
+                Products
+              </button>
+              <button
+                onClick={() => navigate('/farmer-listings')}
+                className="text-gray-700 hover:text-green-600 block px-3 py-2 rounded-md text-base font-medium w-full text-left"
+              >
+                Listings
+              </button>
             </div>
           </div>
         )}
@@ -146,33 +162,38 @@ const Index = () => {
 
       {/* Hero Section */}
       <section id="home" className="pt-16 min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"></div>
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1920&h=1080&fit=crop')`
+          }}
+        ></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="animate-fade-in">
-            <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
-              Crafting Digital
-              <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Experiences
+            <h2 className="text-5xl md:text-7xl font-bold text-white mb-6">
+              Transforming Agricultural Waste into
+              <span className="block text-green-400">
+                Sustainable Resources
               </span>
             </h2>
-            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              We create stunning, responsive websites and applications that bring your vision to life with cutting-edge technology and beautiful design.
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-4xl mx-auto">
+              Bio Harvest connects farmers with companies seeking sustainable raw materials, reducing carbon footprint and promoting a circular agricultural economy.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                onClick={() => scrollToSection('portfolio')}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg"
+                onClick={handleFarmerClick}
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg"
               >
-                View Our Work <ArrowRight className="ml-2 h-5 w-5" />
+                I am a Farmer
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
-                onClick={() => scrollToSection('contact')}
-                className="px-8 py-4 text-lg border-2 hover:bg-gray-50"
+                onClick={handleCompanyClick}
+                className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-gray-900"
               >
-                Get In Touch
+                We are a Company
               </Button>
             </div>
           </div>
@@ -180,60 +201,32 @@ const Index = () => {
         
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="h-8 w-8 text-gray-400" />
+          <ChevronDown className="h-8 w-8 text-white" />
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 bg-white">
+      {/* How Bio Harvest Works */}
+      <section id="about" className="py-20 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">About Us</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We're a team of passionate developers and designers dedicated to creating exceptional digital experiences.
+            <h2 className="text-4xl font-bold mb-4">How Bio Harvest Works</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Our platform simplifies the process of connecting farmers with businesses, ensuring efficient waste utilization and accurate carbon impact assessment.
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { number: "100+", label: "Projects Completed", icon: "🚀" },
-              { number: "50+", label: "Happy Clients", icon: "😊" },
-              { number: "5+", label: "Years Experience", icon: "⭐" }
-            ].map((stat, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="pt-6">
-                  <div className="text-4xl mb-4">{stat.icon}</div>
-                  <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
-                  <div className="text-gray-600">{stat.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We offer a comprehensive range of services to bring your digital vision to life.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-                <CardHeader>
-                  <div className="text-blue-600 mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {service.icon}
+            {howItWorksSteps.map((step, index) => (
+              <Card key={index} className="bg-gray-800 border-gray-700 hover:border-green-500 transition-all duration-300">
+                <CardHeader className="text-center">
+                  <div className="text-green-400 mb-4 flex justify-center">
+                    {step.icon}
                   </div>
-                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                  <CardTitle className="text-white text-xl">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-gray-600">
-                    {service.description}
+                  <CardDescription className="text-gray-300 text-center">
+                    {step.description}
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -242,37 +235,33 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 bg-white">
+      {/* Benefits Section */}
+      <section id="services" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Portfolio</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Benefits of Using Bio Harvest</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Check out some of our recent projects and see what we can create for you.
+              Bio Harvest offers numerous benefits for both farmers and businesses, contributing to a more sustainable and profitable agricultural sector.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {benefits.map((benefit, index) => (
               <Card key={index} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden h-48">
                   <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                    src={benefit.image} 
+                    alt={benefit.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <CardHeader>
-                  <CardTitle>{project.title}</CardTitle>
-                  <CardDescription>{project.description}</CardDescription>
+                  <CardTitle className="text-xl text-gray-900">{benefit.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <Badge key={tech} variant="secondary">{tech}</Badge>
-                    ))}
-                  </div>
+                  <CardDescription className="text-gray-600">
+                    {benefit.description}
+                  </CardDescription>
                 </CardContent>
               </Card>
             ))}
@@ -280,130 +269,66 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ready to start your project? Let's discuss how we can help bring your ideas to life.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <Card className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
-                  </label>
-                  <Input
-                    id="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    required
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <Textarea
-                    id="message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    required
-                    className="w-full"
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Send Message
-                </Button>
-              </form>
-            </Card>
-
-            {/* Contact Info */}
-            <div className="space-y-8">
-              <Card className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Mail className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">Email Us</h3>
-                    <p className="text-gray-600">hello@webcraft.com</p>
-                  </div>
-                </div>
-              </Card>
-              
-              <Card className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-green-100 p-3 rounded-full">
-                    <Phone className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">Call Us</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-              </Card>
-              
-              <Card className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="bg-purple-100 p-3 rounded-full">
-                    <MapPin className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">Visit Us</h3>
-                    <p className="text-gray-600">123 Design Street, Creative City, CC 12345</p>
-                  </div>
-                </div>
-              </Card>
-
-              <div className="flex space-x-4">
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <Github className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <Linkedin className="h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="icon" className="rounded-full">
-                  <Mail className="h-5 w-5" />
-                </Button>
-              </div>
-            </div>
-          </div>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-green-600 to-emerald-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">Ready to Make a Difference?</h2>
+          <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+            Join Bio Harvest today and be part of the solution for a more sustainable future.
+          </p>
+          <Button 
+            size="lg"
+            onClick={handleFarmerClick}
+            className="bg-white text-green-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
+          >
+            Get Started
+          </Button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer id="contact" className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">WebCraft</h3>
-            <p className="text-gray-400 mb-4">Crafting digital experiences that matter.</p>
-            <p className="text-gray-500 text-sm">
-              © 2024 WebCraft. All rights reserved.
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Leaf className="h-6 w-6 text-green-400" />
+                <h3 className="text-xl font-bold">Bio Harvest</h3>
+              </div>
+              <p className="text-gray-400">
+                Transforming agricultural waste into sustainable resources for a better tomorrow.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-green-400 transition-colors">Home</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">Services</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Services</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-green-400 transition-colors">Solutions</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-green-400 transition-colors">Terms of Service</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+              <div className="space-y-2 text-gray-400">
+                <p>Email: info@bioharvest.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 123 Green Valley, Eco City</p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 pt-8 text-center">
+            <p className="text-gray-400">
+              © 2024 Bio Harvest. All rights reserved.
             </p>
           </div>
         </div>
